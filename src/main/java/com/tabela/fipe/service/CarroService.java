@@ -33,14 +33,21 @@ public class CarroService {
                 .map(carro -> {
                     carro.setMarca(novoCarro.getMarca());
                     carro.setModelo(novoCarro.getModelo());
-                    carro.setAno(novoCarro.getAno());
+                    carro.setAnoModelo(novoCarro.getAnoModelo());
                     carro.setValor(novoCarro.getValor());
+                    carro.setCombustivel(novoCarro.getCombustivel());
+                    carro.setCodigoFipe(novoCarro.getCodigoFipe());
+                    carro.setMesReferencia(novoCarro.getMesReferencia());
+                    carro.setSiglaCombustivel(novoCarro.getSiglaCombustivel());
                     return carroRepository.save(carro);
                 })
-                .orElseThrow(() -> new RuntimeException("Carro não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Carro não encontrado para atualização"));
     }
 
     public void deletarCarro(Long id) {
+        if (!carroRepository.existsById(id)) {
+            throw new RuntimeException("Carro não encontrado para deleção");
+        }
         carroRepository.deleteById(id);
     }
 }

@@ -2,6 +2,7 @@ package com.tabela.fipe.controller;
 
 import com.tabela.fipe.model.Carro;
 import com.tabela.fipe.service.CarroService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,9 @@ public class CarroController {
     }
 
     @GetMapping
-    public List<Carro> listarTodos() {
-        return carroService.listarCarros();
+    public ResponseEntity<List<Carro>> listarTodos() {
+        List<Carro> carros = carroService.listarCarros();
+        return ResponseEntity.ok(carros);
     }
 
     @GetMapping("/{id}")
@@ -30,22 +32,26 @@ public class CarroController {
     }
 
     @PostMapping
-    public Carro criarCarro(@RequestBody Carro carro) {
-        return carroService.salvarCarro(carro);
+    public ResponseEntity<Carro> criarCarro(@Valid @RequestBody Carro carro) {
+        Carro novoCarro = carroService.salvarCarro(carro);
+        return ResponseEntity.ok(novoCarro);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Carro> atualizarCarro(@PathVariable Long id, @RequestBody Carro carro) {
-        try {
-            return ResponseEntity.ok(carroService.atualizarCarro(id, carro));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Carro> atualizarCarro(@PathVariable Long id, @Valid @RequestBody Carro carro) {
+        Carro carroAtualizado = carroService.atualizarCarro(id, carro);
+        return ResponseEntity.ok(carroAtualizado);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCarro(@PathVariable Long id) {
+    public ResponseEntity<String> deletarCarro(@PathVariable Long id) {
         carroService.deletarCarro(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Carro deletado com sucesso!");
+    }
+
+    // Captura exceções para retornar mensagens mais amigáveis
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

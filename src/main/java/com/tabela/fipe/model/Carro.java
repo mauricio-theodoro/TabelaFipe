@@ -1,22 +1,59 @@
 package com.tabela.fipe.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "carros")
 public class Carro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "A marca não pode ser nula")
     private String marca;
+
+    @NotNull(message = "O modelo não pode ser nulo")
     private String modelo;
 
+    @NotNull(message = "O ano do modelo não pode ser nulo")
+    private Integer anoModelo;
+
+    @NotNull(message = "O valor do carro não pode ser nulo")
+    private Double valor;
+
+    @NotNull(message = "O tipo de combustível não pode ser nulo")
+    private String combustivel;
+
+    @NotNull(message = "O código FIPE não pode ser nulo")
+    private String codigoFipe;
+
+    @NotNull(message = "O mês de referência não pode ser nulo")
+    private String mesReferencia;
+
+    @NotNull(message = "A sigla do combustível não pode ser nula")
+    private String siglaCombustivel;
+
+    // Construtor vazio
+    public Carro() {
+    }
+
+    // Construtor completo
+    public Carro(Long id, String marca, String modelo, Integer anoModelo, Double valor, String combustivel,
+                 String codigoFipe, String mesReferencia, String siglaCombustivel) {
+        this.id = id;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anoModelo = anoModelo;
+        this.valor = valor;
+        this.combustivel = combustivel;
+        this.codigoFipe = codigoFipe;
+        this.mesReferencia = mesReferencia;
+        this.siglaCombustivel = siglaCombustivel;
+    }
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -41,22 +78,67 @@ public class Carro {
         this.modelo = modelo;
     }
 
-    public int getAno() {
-        return ano;
+    public Integer getAnoModelo() {
+        return anoModelo;
     }
 
-    public void setAno(int ano) {
-        this.ano = ano;
+    public void setAnoModelo(Integer anoModelo) {
+        this.anoModelo = anoModelo;
     }
 
-    public double getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    private int ano;
-    private double valor;
+    public String getCombustivel() {
+        return combustivel;
+    }
+
+    public void setCombustivel(String combustivel) {
+        this.combustivel = combustivel;
+    }
+
+    public String getCodigoFipe() {
+        return codigoFipe;
+    }
+
+    public void setCodigoFipe(String codigoFipe) {
+        this.codigoFipe = codigoFipe;
+    }
+
+    public String getMesReferencia() {
+        return mesReferencia;
+    }
+
+    public void setMesReferencia(String mesReferencia) {
+        this.mesReferencia = mesReferencia;
+    }
+
+    public String getSiglaCombustivel() {
+        return siglaCombustivel;
+    }
+
+    public void setSiglaCombustivel(String siglaCombustivel) {
+        this.siglaCombustivel = siglaCombustivel;
+    }
+
+    // Método toString para facilitar logs e depuração
+    @Override
+    public String toString() {
+        return "Carro{" +
+                "id=" + id +
+                ", marca='" + marca + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", anoModelo=" + anoModelo +
+                ", valor=" + valor +
+                ", combustivel='" + combustivel + '\'' +
+                ", codigoFipe='" + codigoFipe + '\'' +
+                ", mesReferencia='" + mesReferencia + '\'' +
+                ", siglaCombustivel='" + siglaCombustivel + '\'' +
+                '}';
+    }
 }
